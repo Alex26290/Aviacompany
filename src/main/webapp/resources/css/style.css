@@ -1,10 +1,9 @@
 body {
-	background: linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.3)), url(https://i.artfile.ru/2560x1600_284883_[www.ArtFile.ru].jpg);
+	background: linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.3)), url(/resources/img/plane.jpg);
 	-webkit-background-size: cover;
 	background-size: cover;
 	background-attachment: fixed;
-	font-family: sans-serif;
-    
+	font-family: sans-serif;   
 }
 
 .form {
@@ -21,7 +20,7 @@ body {
 	padding: 0;
 	text-align: center;
 	color: #fff;
-	font-size: 30px;
+	font-size: 34px;
 	text-transform: uppercase;
 }
 
@@ -41,6 +40,7 @@ body {
 	box-sizing: border-box;
     border-radius: 10px;
 }
+
 .input-form input[type="email"]:hover, .input-form input[type="password"]:hover{
     border: 1px solid #0fc3f5;
 }
@@ -48,8 +48,6 @@ body {
 .input-form input[type="email"]:focus, .input-form input[type="password"]:focus{
     border: 1px solid #0fc3f5;
 }
-
-
 
 .input-form input[type="submit"] {
 	margin-top: 20px;
