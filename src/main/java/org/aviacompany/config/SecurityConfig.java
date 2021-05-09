@@ -25,13 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/login", "/reg", "/addUser").anonymous() //URL, которые доступны только неавтризованным пользователям
-//                .antMatchers("/hello", "/main")
-//                .hasAuthority("ROLE_ADMIN")
-//                .antMatchers("/main").hasRole("ROLE_ADMIN")
-//                .hasAuthority("ROLE_USER")
-//                .authenticated()
-                .antMatchers("/main").hasAuthority("ROLE_USER")
-                .antMatchers("/hello", "/list").hasAuthority("ROLE_ADMIN").anyRequest().authenticated()
+                .antMatchers("/main", "/currentUser").hasAuthority("ROLE_USER")
+                .antMatchers("/admin", "/list", "/currentUser").hasAuthority("ROLE_ADMIN").anyRequest().authenticated()
                 .and().csrf().disable()
                 .formLogin()
                 .loginPage("/login") // где у нас форма - на этом хендлере

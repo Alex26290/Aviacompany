@@ -10,6 +10,7 @@
 </head>
 
 <body>
+
 <form class="navigation">
     <div class="raz">
         <a class="title">SKY AIRLINES</a>
@@ -18,6 +19,7 @@
         <a class="c1" href="/logout">ВЫЙТИ</a>
     </div>
 </form>
+
 <h2 align="center" class="text">Поиск билетов</h2>
 <form class="trip">
     <div class="form_radio_group-item">
@@ -30,20 +32,11 @@
     </div>
 </form>
 
-
-<%--<form align="center">--%>
-<%--    <form action="/fly", method="post", modelAttribute="testFlight"/>--%>
-
-<%--</form>--%>
 <form action="/flights" , method="post" , modelAttribute="flight"/>
 <form align="center">
     <div class="form">
-<%--        <div class="departure_city">--%>
             <input class="departure_city" placeholder="Откуда" type="text" name="departure_city">
-<%--        </div>--%>
-<%--        <div class="arrival_city">--%>
             <input class="arrival_city" placeholder="Куда" type="text" name="arrival_city">
-<%--        </div>--%>
             <input class ="departure_date" placeholder="Туда" type = "date" name="departure_date">
             <input class ="arrival_date" placeholder="Обратно" type = "date" name="arrival_date">
         <input class="submit" type="submit" name="search" value="ПОИСК">

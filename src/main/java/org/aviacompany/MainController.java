@@ -3,6 +3,8 @@ package org.aviacompany;
 import org.aviacompany.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -29,6 +32,9 @@ public class MainController {
 
     @Autowired
     private FlightDaoImpl flightDao;
+
+    @Autowired
+    private FlightData currentFlight;
 
     @GetMapping("/users")
     public String getUsers(Model model) {
@@ -138,12 +144,41 @@ public class MainController {
         return "redirect:users-rest/users";
     }
 
+    @RequestMapping(value = "/registerFlight", method = RequestMethod.POST)
+    public String regFlight(@ModelAttribute("flight") Flight flight,
+                            BindingResult result, ModelMap model) {
+        System.out.println("В методе добавления пользователя");
+        if (result.hasErrors()) {
+            return "error";
+        }
+        flightDao.add(flight);
+        System.out.println(flight);
+        System.out.println(flight.getDeparture_time().toString());
+        return "admin";
+    }
+
     @RequestMapping(value = "/reg", method = RequestMethod.GET)
     public String registrate() {
         return "registration";
     }
 
-    @RequestMapping(value = "/flights_search", method = RequestMethod.GET )
+
+    @RequestMapping(value = "/currentUser", method = RequestMethod.GET)
+    public String getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication.getPrincipal().toString());
+        String email = authentication.getName();
+        System.out.println(authentication.getCredentials());
+        System.out.println(authentication.getDetails());
+        User u = (User) authentication.getPrincipal();
+        System.out.println("User login = " + u.getLogin());
+        System.out.println("authentication.getName() = " + email);
+        User user = userDaoImpl.getUserByEmail(email);
+        return "registration";
+    }
+
+
+    @RequestMapping(value = "/flights_search", method = RequestMethod.GET)
     public String flights_search(@ModelAttribute("flight") Flight flight, BindingResult result, ModelMap map) {
 //        System.out.println(flight.getDepartureCity());
 //        System.out.println(flight.getArrivalCity());
@@ -175,8 +210,8 @@ public class MainController {
     }
 
     //Тестовое отображение данных
-    @RequestMapping(value={"/test"}, method = RequestMethod.GET)
-    public ModelAndView listEmployee(){
+    @RequestMapping(value = {"/test"}, method = RequestMethod.GET)
+    public ModelAndView listEmployee() {
         User user = new User();
         user.setId(5);
         user.setLogin("Sasha");
@@ -210,6 +245,7 @@ public class MainController {
         return "list";
     }
 
+
     @RequestMapping(value = "/reg", method = RequestMethod.POST)
     public String reg(@ModelAttribute("user") User user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
@@ -232,21 +268,25 @@ public class MainController {
     }
 
     @RequestMapping(value = "/ticket_buying", method = RequestMethod.GET)
-    public String ticketBuying() {
+    public String ticketBuying(@ModelAttribute("flight") Flight flight) {
+        FlightData flightData = new FlightData();
+        System.out.println(flightData);
         return "ticket_buying";
     }
-    @RequestMapping(value = "/lk", method = RequestMethod.GET)
-    public String lk() {
-        return "lk";
-    }
+
 
     @RequestMapping(value = "/tickets", method = RequestMethod.GET)
     public String tickets() {
         return "tickets";
     }
 
-//    @GetMapping("/flights")
-//    public List<Flight> getFlight() {
-//        return flightDao.getAll();
-//    }
+
+    @RequestMapping(value = "/lk", method = RequestMethod.GET)
+    public String lk(ModelMap model) {
+        System.out.println(model.getAttribute("password"));
+        System.out.println(model.getAttribute("login"));
+        System.out.println(model.getAttribute("email"));
+        System.out.println("lalala");
+        return "lk";
+    }
 }

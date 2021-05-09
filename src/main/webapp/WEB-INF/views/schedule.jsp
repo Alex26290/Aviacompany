@@ -39,71 +39,85 @@
         </tr>
     </table>
     <br><b></b></br>
+<%--    <form method="get"--%>
+<%--          action="/ticket_buying" modelAttribute="flight"/>--%>
+    <div class="form">
+        <table align="center" class="block">
+            <c:if test="${not empty flights}">
+                <c:forEach items="${flights}" var="flight">
+<%--                    <form  method="get"--%>
+<%--                           action="/111" modelAttribute="flight.departure_city"/>--%>
+                    <table align="center" class="block">
+                        <div class="form">
+                            <tr>
+                                <th><h3>${flight.departure_city}</h3></th>
+                                <th><h3>${flight.arrival_city}</h3></th>
+                                <th><h3>${flight.flight_number}</h3></th>
+                                <th><h3>${flight.departure_time}</h3></th>
+                                <th><h3>${flight.arrival_time}</h3></th>
+                            </tr>
+                        </div>
+                        <c:set var="departure_city" scope="session" value="${flight.departure_city}"/>
+                        <c:set var="arrival_city" scope="session" value="${flight.arrival_city}"/>
+                        <c:set var="flight_number" scope="session" value="${flight.flight_number}"/>
+                        <c:set var="departure_time" scope="session" value="${flight.departure_time}"/>
+                        <c:set var="arrival_time" scope="session" value="${flight.arrival_time}"/>
+<%--                        <c:out value="${field.name}"/>--%>
+                            <th><a class="submit" href="/ticket_buying">Выбрать рейс</a></th>
+                    </table>
+                </c:forEach>
+            </c:if>
+        </table>
+        <%--    <form  method="post"--%>
+        <%--           action="/addUser" modelAttribute="user"/>--%>
 
-    <table align="center" class="block">
-        <c:if test="${not empty flights}">
-            <c:forEach items="${flights}" var="flight">
-                <table align="center" class="block">
-                    <tr>
-                        <th><h3>${flight.departure_city}</h3></th>
-                        <th><h3>${flight.arrival_city}</h3></th>
-                        <th><h3>SU 6035</h3></th>
-                        <th><h3>12:55</h3></th>
-                        <th><h3>14:25</h3></th>
-                    </tr>
-                    <th><a class="submit" href="покупка.html">Выбрать рейс</a></th>
-                </table>
-            </c:forEach>
-        </c:if>
-    </table>
 
-
-    <%--    <table align="center" class="block">--%>
-    <%--        <tr >--%>
-    <%--            <th><h3>Санкт-Петербург (LED)</h3></th>--%>
-    <%--            <th><h3>Москва (VKO)</h3></th>--%>
-    <%--            <th><h3>SU 6035</h3></th>--%>
-    <%--            <th><h3>12:55</h3></th>--%>
-    <%--            <th><h3>14:25</h3></th>--%>
-    <%--            <th><a class ="submit" href="покупка.html">Выбрать рейс</a></th>--%>
-    <%--        </tr>--%>
-    <%--    </table>--%>
-    <%--    <table align="left" class="block">--%>
-    <%--        <tr class="schedule1">--%>
-    <%--            <th><h3>Санкт-Петербург (LED)</h3></th>--%>
-    <%--            <th><h3>Москва (VKO)</h3></th>--%>
-    <%--            <th><h3>SU 6023</h3></th>--%>
-    <%--            <th><h3>14:00</h3></th>--%>
-    <%--            <th><h3>15:30</h3></th>--%>
-    <%--            <th><a class ="submit" href="покупка.html">Выбрать рейс</a></th>--%>
-    <%--        </tr></table>--%>
-    <%--    <table align="left" class="block">--%>
-    <%--        <tr class="schedule1">--%>
-    <%--            <th><h3>Санкт-Петербург (LED)</h3></th>--%>
-    <%--            <th><h3>Москва (SVO)</h3></th>--%>
-    <%--            <th><h3>SU 6037</h3></th>--%>
-    <%--            <th><h3>17:45</h3></th>--%>
-    <%--            <th><h3>19:15</h3></th>--%>
-    <%--            <th><a class ="submit" href="покупка.html">Выбрать рейс</a></th>--%>
-    <%--        </tr></table>--%>
-    <%--    <table align="left" class="block">--%>
-    <%--        <tr class="schedule1">--%>
-    <%--            <th><h3>Санкт-Петербург (LED)</h3></th>--%>
-    <%--            <th><h3>Москва (DME)</h3></th>--%>
-    <%--            <th><h3>SU 6023</h3></th>--%>
-    <%--            <th><h3>20:10</h3></th>--%>
-    <%--            <th><h3>21:40</h3></th>--%>
-    <%--            <th><a class ="submit" href="покупка.html">Выбрать рейс</a></th>--%>
-    <%--        </tr></table>--%>
-    <%--    <table align="left" class="block">--%>
-    <%--        <tr class="schedule1">--%>
-    <%--            <th><h3>Санкт-Петербург (LED)</h3></th>--%>
-    <%--            <th><h3>Москва (SVO)</h3></th>--%>
-    <%--            <th><h3>SU 6035</h3></th>--%>
-    <%--            <th><h3>21:50</h3></th>--%>
-    <%--            <th><h3>23:20</h3></th>--%>
-    <%--            <th><a class ="submit" href="покупка.html">Выбрать рейс</a></th>--%>
-    <%--        </tr></table>--%>
+        <%--    <table align="center" class="block">--%>
+        <%--        <tr >--%>
+        <%--            <th><h3>Санкт-Петербург (LED)</h3></th>--%>
+        <%--            <th><h3>Москва (VKO)</h3></th>--%>
+        <%--            <th><h3>SU 6035</h3></th>--%>
+        <%--            <th><h3>12:55</h3></th>--%>
+        <%--            <th><h3>14:25</h3></th>--%>
+        <%--            <th><a class ="submit" href="покупка.html">Выбрать рейс</a></th>--%>
+        <%--        </tr>--%>
+        <%--    </table>--%>
+        <%--    <table align="left" class="block">--%>
+        <%--        <tr class="schedule1">--%>
+        <%--            <th><h3>Санкт-Петербург (LED)</h3></th>--%>
+        <%--            <th><h3>Москва (VKO)</h3></th>--%>
+        <%--            <th><h3>SU 6023</h3></th>--%>
+        <%--            <th><h3>14:00</h3></th>--%>
+        <%--            <th><h3>15:30</h3></th>--%>
+        <%--            <th><a class ="submit" href="покупка.html">Выбрать рейс</a></th>--%>
+        <%--        </tr></table>--%>
+        <%--    <table align="left" class="block">--%>
+        <%--        <tr class="schedule1">--%>
+        <%--            <th><h3>Санкт-Петербург (LED)</h3></th>--%>
+        <%--            <th><h3>Москва (SVO)</h3></th>--%>
+        <%--            <th><h3>SU 6037</h3></th>--%>
+        <%--            <th><h3>17:45</h3></th>--%>
+        <%--            <th><h3>19:15</h3></th>--%>
+        <%--            <th><a class ="submit" href="покупка.html">Выбрать рейс</a></th>--%>
+        <%--        </tr></table>--%>
+        <%--    <table align="left" class="block">--%>
+        <%--        <tr class="schedule1">--%>
+        <%--            <th><h3>Санкт-Петербург (LED)</h3></th>--%>
+        <%--            <th><h3>Москва (DME)</h3></th>--%>
+        <%--            <th><h3>SU 6023</h3></th>--%>
+        <%--            <th><h3>20:10</h3></th>--%>
+        <%--            <th><h3>21:40</h3></th>--%>
+        <%--            <th><a class ="submit" href="покупка.html">Выбрать рейс</a></th>--%>
+        <%--        </tr></table>--%>
+        <%--    <table align="left" class="block">--%>
+        <%--        <tr class="schedule1">--%>
+        <%--            <th><h3>Санкт-Петербург (LED)</h3></th>--%>
+        <%--            <th><h3>Москва (SVO)</h3></th>--%>
+        <%--            <th><h3>SU 6035</h3></th>--%>
+        <%--            <th><h3>21:50</h3></th>--%>
+        <%--            <th><h3>23:20</h3></th>--%>
+        <%--            <th><a class ="submit" href="покупка.html">Выбрать рейс</a></th>--%>
+        <%--        </tr></table>--%>
 </form>
 
 

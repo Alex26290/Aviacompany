@@ -24,8 +24,8 @@ public class User {
     @NotNull
     @Size(min = 8, message = "Minimum 8 symbols")
     private String password;
-//    @Column(name = "role")
-@Enumerated(EnumType.STRING)
+    //    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private Role role;
     @Email
     private String email;

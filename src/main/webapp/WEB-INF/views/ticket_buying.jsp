@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +15,8 @@
 </head>
 
 <body>
+<form  method="post"
+       action="/lk" modelAttribute="flight"/>
 <form class = "navigation">
     <div class = "raz">
         <a class = "title">SKY AIRLINES</a>
@@ -30,11 +33,11 @@
     <h2 align = "left">Информация о рейсе</h2>
     <table align="center" class="block">
         <tr >
-            <th><h3>Санкт-Петербург (LED)</h3></th>
-            <th><h3>Москва (VKO)</h3></th>
-            <th><h3>SU 6035</h3></th>
-            <th><h3>12:55</h3></th>
-            <th><h3>14:25</h3></th>
+            <th><h3><c:out value="${departure_city}"/></h3></th>
+            <th><h3><c:out value="${arrival_city}" /></h3></th>
+            <th><h3><c:out value="${flight_number}" /></h3></th>
+            <th><h3><c:out value="${departure_time}" /></h3></th>
+            <th><h3><c:out value="${arrival_time}" /></h3></th>
         </tr>
     </table>
     <h2 align = "left">Введите данные пассажира</h2>
@@ -58,6 +61,7 @@
     <br><b></b></br>
     <p><img src="https://lime-stone.ru/image/cache/data/gallery/granit/gabbrodiabaz-920x690.jpg "height="0.5" width="100%"></p>
     <h2 align = "center">Оплата</h2>
+<%--    <form action="/lk" , method="post"/>--%>
     <table align = "center" class = "card">
         <tr>
             <th><label for="number">Номер карты</label>
@@ -79,7 +83,8 @@
     </table>
     <br><b></b></br>
     <div align = "center">
-        <input type="submit" class ="pay" value="Оплатить">
+        <th><a class="submit" href="/lk" >Оплатить</a></th>
+<%--        <input type="submit" class ="pay" value="Оплатить">--%>
     </div>
 </form>
 <p><img src="https://lime-stone.ru/image/cache/data/gallery/granit/gabbrodiabaz-920x690.jpg "height="0.5" width="100%"></p>
