@@ -25,21 +25,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/login", "/reg", "/addUser").anonymous() //URL, которые доступны только неавтризованным пользователям
-                .antMatchers("/main")
-//                .hasRole("ROLE_USER")
-//                .anyRequest()
-                .authenticated()
-//                .anyRequest().authenticated()
-//                .antMatchers("/hello").hasRole("admin")
-//                .anyRequest()
-                //URL, которые доступны автризованным пользователям
+//                .antMatchers("/hello", "/main")
+//                .hasAuthority("ROLE_ADMIN")
+//                .antMatchers("/main").hasRole("ROLE_ADMIN")
+//                .hasAuthority("ROLE_USER")
+//                .authenticated()
+                .antMatchers("/main").hasAuthority("ROLE_USER")
+                .antMatchers("/hello", "/list").hasAuthority("ROLE_ADMIN").anyRequest().authenticated()
                 .and().csrf().disable()
                 .formLogin()
                 .loginPage("/login") // где у нас форма - на этом хендлере
                 .loginProcessingUrl("/login/process") //Url, на который у нас посылаются данные пользователя для обработки, его будет обрабатывать спринг
                 .usernameParameter("email") // по дефолту username в спринге - username, поэтому мы указываем, что у нас email
                 .failureUrl("/login")
-                .defaultSuccessUrl("/main", true)
+               .defaultSuccessUrl("/default", true)
                 .and().logout().permitAll(); //
     }
 

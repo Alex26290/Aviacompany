@@ -132,9 +132,8 @@ public class MainController {
         model.addAttribute("password", user.getPassword());
         model.addAttribute("email", user.getEmail());
         user.setLogin(user.getEmail());
-        Set<Role> roles = new HashSet<>();
-        roles.add(Role.ROLE_USER);
-        user.setRole(Role.ROLE_USER);
+        System.out.println(user.getRole());
+        user.setRole(user.getRole());
         userDaoImpl.add(user);
         return "redirect:users-rest/users";
     }
@@ -225,6 +224,25 @@ public class MainController {
         userDaoImpl.add(user);
         return "main";
 
+    }
+
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public String adminPage() {
+        return "admin";
+    }
+
+    @RequestMapping(value = "/ticket_buying", method = RequestMethod.GET)
+    public String ticketBuying() {
+        return "ticket_buying";
+    }
+    @RequestMapping(value = "/lk", method = RequestMethod.GET)
+    public String lk() {
+        return "lk";
+    }
+
+    @RequestMapping(value = "/tickets", method = RequestMethod.GET)
+    public String tickets() {
+        return "tickets";
     }
 
 //    @GetMapping("/flights")

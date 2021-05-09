@@ -1,5 +1,6 @@
 package org.aviacompany.auth;
 
+import org.aviacompany.model.Role;
 import org.aviacompany.model.User;
 import org.aviacompany.UsersDaoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +45,14 @@ public class AuthProviderImpl implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
         System.out.println("password = " + password);
         System.out.println("user.getPassword() = " + user.getPassword());
-//        System.out.println("user.getRole = " + user.getRole());
-//        System.out.println(user.getRole().getAuthority());
+        System.out.println("user.getRole = " + user.getRole());
+        System.out.println(user.getRole().getAuthority());
         if(!passwordEncoder.matches(password,user.getPassword())){
             throw new BadCredentialsException("Bad credentials");
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
-
+        authorities.add(user.getRole());
+//        authorities.add(Role.ROLE_ADMIN);
         return new UsernamePasswordAuthenticationToken(user,null,authorities);
     }
 

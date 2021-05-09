@@ -1,5 +1,5 @@
 body {
-	background: linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.3)), url(img/самолет2.jpg);
+	background: linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.3)), url(img/самолет3.jpg);
 	-webkit-background-size: cover;
 	background-size: cover;
 	background-attachment: fixed;
@@ -9,7 +9,7 @@ body {
 .form {
     padding: 16px 10px;
 	position: absolute;
-	width: 300px;
+	width: 400px;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%,-50%);
@@ -37,14 +37,14 @@ body {
     font-size: 12px;
 }
 
-.input-email, .input-password, .input-submit {
+.input-town, .input-password, .input-submit {
     margin: 15px 27px;
 	text-align: center;
 }
-.email, .password {
+.town, .password {
     padding: 10px;
 	width: 100%;
-	color: #000;
+	color: rgb(255, 255, 255);
 	font-size: 20px;
 	background: none;
 	outline: none;
@@ -54,7 +54,7 @@ body {
 }
 
 
-.email:hover, .password:hover{
+.town:hover, .password:hover{
     border: 1px solid #0fc3f5;
 }
 
@@ -72,11 +72,12 @@ body {
 	font-weight: bold;
 	
 	border: none;
-	background: #27a560;
+	background: #3eb9d8;
 
     border-radius: 30px;
 }
 
 .submit:hover {
-	background: #1c641c;
+	background: #43a9d1;
+    color: rgb(224, 224, 224);
 }
