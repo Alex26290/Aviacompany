@@ -3,9 +3,7 @@ package org.aviacompany.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.time.LocalTime;
-import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -14,16 +12,20 @@ public class Flight {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
     private int flight_number;
     private String departure_city;
     private String arrival_city;
     private String departure_airport;
     private String arrival_airport;
+    @Column(name = "departure_date")
     private Date departure_date;
+    @Column(name = "arrival_date")
     private Date arrival_date;
     private LocalTime departure_time;
     private LocalTime arrival_time;
+    @Column(name = "flight_price")
+    private int flight_price;
 
     public Flight() {
     }
@@ -33,7 +35,7 @@ public class Flight {
         this.arrival_city = arrival_city;
     }
 
-    public Flight(long id, String departure_city, String arrival_city) {
+    public Flight(int id, String departure_city, String arrival_city) {
         this.id = id;
         this.departure_city = departure_city;
         this.arrival_city = arrival_city;
@@ -47,7 +49,7 @@ public class Flight {
         this.departure_time = departure_time;
     }
 
-    public Flight(long id, int flight_number, String departure_city, String arrival_city, String departure_airport, String arrival_airport, LocalTime departure_time, LocalTime arrival_time) {
+    public Flight(int id, int flight_number, String departure_city, String arrival_city, String departure_airport, String arrival_airport, LocalTime departure_time, LocalTime arrival_time, int flight_price) {
         this.id = id;
         this.flight_number = flight_number;
         this.departure_city = departure_city;
@@ -56,9 +58,10 @@ public class Flight {
         this.arrival_airport = arrival_airport;
         this.departure_time = departure_time;
         this.arrival_time = arrival_time;
+        this.flight_price = flight_price;
     }
 
-    public Flight(long id, int flight_number, String departure_city, String arrival_city, String departure_airport, String arrival_airport, Date departure_date, Date arrival_date, LocalTime departure_time, LocalTime arrival_time) {
+    public Flight(int id, int flight_number, String departure_city, String arrival_city, String departure_airport, String arrival_airport, Date departure_date, Date arrival_date, LocalTime departure_time, LocalTime arrival_time, int flight_price) {
         this.id = id;
         this.flight_number = flight_number;
         this.departure_city = departure_city;
@@ -69,6 +72,15 @@ public class Flight {
         this.arrival_date = arrival_date;
         this.departure_time = departure_time;
         this.arrival_time = arrival_time;
+        this.flight_price = flight_price;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDeparture_city() {
@@ -141,6 +153,14 @@ public class Flight {
 
     public void setArrival_time(LocalTime arrival_time) {
         this.arrival_time = arrival_time;
+    }
+
+    public int getFlight_price() {
+        return flight_price;
+    }
+
+    public void setFlight_price(int flight_price) {
+        this.flight_price = flight_price;
     }
 
     @Override

@@ -7,24 +7,38 @@ import org.springframework.stereotype.Component;
 @ComponentScan("org.aviacompany")
 public class FlightData {
 
-private String departure_city;
+private int id;
+private String departureCity;
 
     public FlightData() {
     }
 
-    public String getDeparture_city() {
-        return departure_city;
+    public FlightData(int id, String departureCity) {
+        this.id = id;
+        this.departureCity = departureCity;
     }
 
-    public void setDeparture_city(String departure_city) {
-        this.departure_city = departure_city;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDepartureCity() {
+        return departureCity;
+    }
+
+    public void setDepartureCity(String departureCity) {
+        this.departureCity = departureCity;
     }
 
     @Override
     public String toString() {
         return "FlightData{" +
-                "departure_city='" + departure_city + '\'' +
+                "id=" + id +
+                ", departureCity='" + departureCity + '\'' +
                 '}';
     }
-
 }

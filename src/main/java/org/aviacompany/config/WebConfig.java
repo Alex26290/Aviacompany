@@ -37,25 +37,10 @@ public class WebConfig implements WebMvcConfigurer {
         return viewResolver;
     }
 
-    @Override
-    public final void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        System.out.println("Добавляем обработчик ресурсов");
-        registry.addResourceHandler("/resources/**") // http адрес по каторому будет получен ресурс
-                .addResourceLocations("/resources/"); // путь до папки где будет лежать ресурс
-    }
-
-    //Создать новый класс конфигурации, если метод выше не сработает
-//    @Configuration
-//    public class NewConfigure extends WebMvcConfigurerAdapter {
-//        @Override
-//        public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-//            registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-//        }
+//    @Override
+//    public final void addResourceHandlers(final ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/resources/**") // http адрес по которому будет получен ресурс
+//                .addResourceLocations("/resources/"); // путь до папки где будет лежать ресурс
 //    }
 
-
-    //    @Override
-//    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-//    }
 }

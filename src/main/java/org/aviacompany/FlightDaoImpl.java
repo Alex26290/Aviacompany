@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -23,13 +25,14 @@ public class FlightDaoImpl {
         List<Flight> flights = getSession().createQuery("From Flight ", Flight.class).list();
         System.out.println(flights.size());
         for (Flight flight : flights) {
+            flight.setDeparture_date(new Date(flight.getDeparture_date().toString()));
             System.out.println(flight.getDeparture_city() + " " + flight.getArrival_city());
         }
         return flights;
     }
 
     //    @Override
-    public Object getById(int id) {
+    public Flight getById(int id) {
         Flight flight = null;
         try {
             List<Flight> flights = getSession().createQuery("From Flight where id = " + id, Flight.class).list();
@@ -67,9 +70,9 @@ public class FlightDaoImpl {
     public List<Flight> findFlightsByCitiesAndDates(Flight flight) {
         String departureCity = flight.getDeparture_city();
         String arrivalCity = flight.getArrival_city();
-        java.sql.Date sqlDate = new java.sql.Date(flight.getArrival_date().getTime());
+        java.sql.Date departureDate = new java.sql.Date(flight.getArrival_date().getTime());
         try {
-            List<Flight> flights = getSession().createQuery("From Flight where departure_city like " + "'" + departureCity + "' and arrival_city like " + "'" + arrivalCity + "' and arrival_date like " +"'" + sqlDate + "%'" , Flight.class)
+            List<Flight> flights = getSession().createQuery("From Flight where departure_city like " + "'" + departureCity + "' and arrival_city like " + "'" + arrivalCity + "' and departure_date like " +"'" + departureDate + "%'" , Flight.class)
                     .list();
             if (flight != null) {
                 return flights;
@@ -78,6 +81,5 @@ public class FlightDaoImpl {
             e.printStackTrace();
         }
         return null;
-
     }
 }

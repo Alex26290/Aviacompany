@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <title>Сайт авиакомпании</title>
@@ -28,61 +30,69 @@
 <br><b></b></br>
 <form class="schedule">
 
+    <c:if test="${not empty message}">
+        <p id="panel"> <c:out value="${message}"/></p>
+    </c:if>
+
+    <c:if test="${not empty tickets}">
+    <c:forEach items="${tickets}" var="ticket">
     <table align="center" class="block">
         <tr>
             <th><h2>Город вылета</h2></th>
-            <th><h3>Санкт-Петербург</h3></th>
+            <th><h3>${ticket.departure_city}</h3></th>
         </tr>
     </table>
     <table align="center" class="block">
         <tr>
             <th><h2>Аэропорт</h2></th>
-            <th><h3>LED</h3></th>
+            <th><h3>${ticket.departure_airport}</h3></th>
         </tr>
     </table>
     <table align="center" class="block">
         <tr>
             <th><h2>Город прилета</h2></th>
-            <th><h3>Москва</h3></th>
+            <th><h3>${ticket.arrival_city}</h3></th>
         </tr>
     </table>
     <table align="center" class="block">
         <tr>
             <th><h2>Аэропорт</h2></th>
-            <th><h3>VKO</h3></th>
+            <th><h3>${ticket.arrival_airport}</h3></th>
         </tr>
     </table>
     <table align="center" class="block">
         <tr>
             <th><h2>Дата вылета</h2></th>
-            <th><h3>05.05.2021</h3></th>
+            <c:set var="departure_date" scope="session" value="${ticket.departure_date}"/>
+            <th><h3>${fn:substring(departure_date,0,10)}</h3></th>
         </tr>
     </table>
     <table align="center" class="block">
         <tr>
             <th><h2>Номер рейса</h2></th>
-            <th><h3>SU 6035</h3></th>
+            <th><h3>${ticket.flight_number}</h3></th>
         </tr>
     </table>
     <table align="center" class="block">
         <tr>
             <th><h2>Время вылета</h2></th>
-            <th><h3>12:55</h3></th>
+            <th><h3>${ticket.departure_time}</h3></th>
         </tr>
     </table>
     <table align="center" class="block">
         <tr>
             <th><h2>Время прилета</h2></th>
-            <th><h3>14:25</h3></th>
+            <th><h3>${ticket.arrival_time}</h3></th>
         </tr>
     </table>
     <table align="center" class="block">
         <tr>
             <th><h2>Владелец</h2></th>
-            <th><h3>Иванов И.И.</h3></th>
+            <th><h3>${ticket.user_id}</h3></th>
         </tr>
     </table>
-
+    </c:forEach>
+    </c:if>
 
 </form>
 

@@ -24,11 +24,12 @@ public class User {
     @NotNull
     @Size(min = 8, message = "Minimum 8 symbols")
     private String password;
-    //    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
     @Email
     private String email;
+    @Column(name = "money")
+    private int money;
 
     public void setEmail(String email) {
         this.email = email;
@@ -42,12 +43,13 @@ public class User {
 
     }
 
-    public User(long id, @NotNull String login, @NotNull String password, @Email String email, Role role) {
+    public User(long id, @NotNull String login, @NotNull String password, @Email String email, Role role, int money) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.role = role;
         this.email = email;
+        this.money = money;
     }
 
     public User(String login, String password, String email) {
@@ -56,11 +58,12 @@ public class User {
         this.email = email;
     }
 
-    public User(String login, String password, String email, Role role) {
+    public User(String login, String password, String email, Role role, int money) {
         this.login = login;
         this.password = password;
         this.email = email;
         this.role = role;
+        this.money = money;
     }
 
     public void setId(long id) {
@@ -95,4 +98,11 @@ public class User {
         return role;
     }
 
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
 }

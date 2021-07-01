@@ -29,22 +29,26 @@
     </c:forEach>
 </ul>
 <table>
-<c:if test="${not empty list}">
-    <c:forEach items="${list}" var="listValue">
-        <tr>
-            <td> Login:</td>
-            <td> ${listValue.login}</td>
-        </tr>
-        <tr>
-            <td> Password:</td>
-            <td> ${listValue.password}</td>
-        </tr>
-        <tr>
-            <td> Email:</td>
-            <td> ${listValue.email}</td>
-        </tr>
-    </c:forEach>
-</c:if>
+    <form method="post"
+          class="login" action="/testValue" modelAttribute="value" name="login"/>
+    <c:if test="${not empty list}">
+        <c:forEach items="${list}" var="listValue">
+            <tr>
+                <td> Login:</td>
+                <td> ${listValue.login}</td>
+            </tr>
+            <tr>
+                <td> Password:</td>
+                <td> ${listValue.password} </td>
+            </tr>
+            <tr>
+                <td> Email:</td>
+                <td> ${listValue.email}</td>
+            </tr>
+            <input type="submit" class="submit" value="Выбрать">
+        </c:forEach>
+    </c:if>
+
 </table>
 </body>
 

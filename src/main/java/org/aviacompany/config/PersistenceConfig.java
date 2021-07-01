@@ -19,7 +19,7 @@ import java.util.Properties;
 // аналог <tx:annotation-driven/>, управление транзакциями
 @EnableTransactionManagement
 public class PersistenceConfig {
-//    @Value("Driver") String driver,
+
     @Bean
     public DataSource dataSource(@Value("${jdbc.driver}") String driver,
                                  @Value("${jdbc.url}") String url,

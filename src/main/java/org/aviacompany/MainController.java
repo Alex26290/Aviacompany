@@ -1,6 +1,7 @@
 package org.aviacompany;
 
 import org.aviacompany.model.*;
+import org.aviacompany.utils.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.core.Authentication;
@@ -12,9 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.security.Principal;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -22,7 +20,7 @@ import java.util.*;
 public class MainController {
 
     @InitBinder
-    public final void initBinderUsuariosFormValidator(final WebDataBinder binder, final Locale locale) {
+    public final void initBinderFormValidator(final WebDataBinder binder, final Locale locale) {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", locale);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
@@ -34,7 +32,14 @@ public class MainController {
     private FlightDaoImpl flightDao;
 
     @Autowired
-    private FlightData currentFlight;
+    private TicketDaoImpl ticketDao;
+
+    @Autowired
+    private FlightData flightData;
+
+    @Autowired
+    private UserValidator validator;
+
 
     @GetMapping("/users")
     public String getUsers(Model model) {
@@ -130,9 +135,9 @@ public class MainController {
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     public String submit(@ModelAttribute("user") User user,
                          BindingResult result, ModelMap model) {
-        System.out.println("В методе добавления пользователя");
+        validator.validate(user, result);
         if (result.hasErrors()) {
-            return "error";
+            return "sign_up";
         }
         model.addAttribute("login", user.getEmail());
         model.addAttribute("password", user.getPassword());
@@ -147,15 +152,29 @@ public class MainController {
     @RequestMapping(value = "/registerFlight", method = RequestMethod.POST)
     public String regFlight(@ModelAttribute("flight") Flight flight,
                             BindingResult result, ModelMap model) {
-        System.out.println("В методе добавления пользователя");
         if (result.hasErrors()) {
             return "error";
         }
         flightDao.add(flight);
-        System.out.println(flight);
-        System.out.println(flight.getDeparture_time().toString());
         return "admin";
     }
+
+    @RequestMapping(value = "/testFlight", method = RequestMethod.POST)
+    public String testFlight(@ModelAttribute("flight") Flight flight,
+                            BindingResult result, ModelMap model) {
+        if (result.hasErrors()) {
+            return "error";
+        }
+        System.out.println(flight);
+        return "lala";
+    }
+
+    @RequestMapping(value = "/testFlight", method = RequestMethod.GET)
+    public String testFlight() {
+        System.out.println(flightData.getId());
+        return "testFlight";
+    }
+
 
     @RequestMapping(value = "/reg", method = RequestMethod.GET)
     public String registrate() {
@@ -180,29 +199,13 @@ public class MainController {
 
     @RequestMapping(value = "/flights_search", method = RequestMethod.GET)
     public String flights_search(@ModelAttribute("flight") Flight flight, BindingResult result, ModelMap map) {
-//        System.out.println(flight.getDepartureCity());
-//        System.out.println(flight.getArrivalCity());
         List<Flight> flights = flightDao.findFlightsByCitiesAndDates(flight);
-        System.out.println(result.getModel().containsKey("Москва"));
-        System.out.println(result.getModel().containsKey("departure_city"));
-        System.out.println(result.getModel().containsValue("Москва"));
-        System.out.println(result.getModel().containsValue("departure_city"));
-        System.out.println(map.getAttribute("departure_city"));
-        System.out.println(map.getAttribute("arrival_city"));
         return "flights_search";
     }
 
     @RequestMapping(value = "/flights", method = RequestMethod.POST)
-    public ModelAndView fly(@ModelAttribute("flight") Flight flight, Model model) throws ParseException {
+    public ModelAndView fly(@ModelAttribute("flight") Flight flight, Model model) {
         model.addAttribute("flight", flight);
-        System.out.println(flight);
-        System.out.println(flight.getArrival_date().toString());
-        System.out.println("\n");
-
-        java.sql.Date sqlDate = new java.sql.Date(flight.getArrival_date().getTime());
-        System.out.printf("sqlDate = " + sqlDate);
-        System.out.println(flight.getArrival_date());
-        System.out.println(flight.getDeparture_date());
         List<Flight> flights = flightDao.findFlightsByCitiesAndDates(flight);
         ModelAndView map = new ModelAndView("schedule");
         map.addObject("flights", flights);
@@ -210,35 +213,40 @@ public class MainController {
     }
 
     //Тестовое отображение данных
-    @RequestMapping(value = {"/test"}, method = RequestMethod.GET)
-    public ModelAndView listEmployee() {
-        User user = new User();
-        user.setId(5);
-        user.setLogin("Sasha");
-        user.setPassword("Gubaydulin");
-        user.setRole(Role.ROLE_USER);
-        user.setEmail("1212@asdad.com");
-        User user2 = new User();
-        user2.setId(5);
-        user2.setLogin("Sasha");
-        user2.setPassword("Nechipurovich");
-        user2.setRole(Role.ROLE_USER);
-        user2.setEmail("1212@asdad.com");
-        User user3 = new User();
-        user3.setId(5);
-        user3.setLogin("login");
-        user3.setPassword("password");
-        user3.setRole(Role.ROLE_USER);
-        user3.setEmail("1212@asdad.com");
-        ArrayList<User> list = new ArrayList<>();
-        list.add(user);
-        list.add(user2);
-        list.add(user3);
-        ModelAndView map = new ModelAndView("test");
-        map.addObject("user", user);
-        map.addObject("list", list);
-        return map;
-    }
+//    @RequestMapping(value = {"/test"}, method = RequestMethod.GET)
+//    public ModelAndView listEmployee() {
+//        User user = new User();
+//        user.setId(5);
+//        user.setLogin("Sasha");
+//        user.setPassword("Gubaydulin");
+//        user.setRole(Role.ROLE_USER);
+//        user.setEmail("1212@asdad.com");
+//        User user2 = new User();
+//        user2.setId(5);
+//        user2.setLogin("Sasha");
+//        user2.setPassword("Nechipurovich");
+//        user2.setRole(Role.ROLE_USER);
+//        user2.setEmail("1212@asdad.com");
+//        User user3 = new User();
+//        user3.setId(5);
+//        user3.setLogin("login");
+//        user3.setPassword("password");
+//        user3.setRole(Role.ROLE_USER);
+//        user3.setEmail("1212@asdad.com");
+//        ArrayList<User> list = new ArrayList<>();
+//        list.add(user);
+//        list.add(user2);
+//        list.add(user3);
+//        ModelAndView map = new ModelAndView("test");
+//        map.addObject("user", user);
+//        map.addObject("list", list);
+//        return map;
+//    }
+//    @RequestMapping(value = {"/testValue"}, method = RequestMethod.POST)
+//    public String testValue(@ModelAttribute("login") String login, BindingResult result, ModelMap model) {
+//        System.out.println("login = " + login);
+//        return "/test";
+//    }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list() {
@@ -248,8 +256,9 @@ public class MainController {
 
     @RequestMapping(value = "/reg", method = RequestMethod.POST)
     public String reg(@ModelAttribute("user") User user, BindingResult result, ModelMap model) {
+        validator.validate(user, result);
         if (result.hasErrors()) {
-            return "Error";
+            return "reg";
         }
         user.setLogin(user.getEmail());
         user.setRole(Role.ROLE_USER);
@@ -258,7 +267,7 @@ public class MainController {
         System.out.println(user.getEmail());
         model.addAttribute("email", user.getEmail());
         userDaoImpl.add(user);
-        return "main";
+        return "login";
 
     }
 
@@ -267,26 +276,64 @@ public class MainController {
         return "admin";
     }
 
+
     @RequestMapping(value = "/ticket_buying", method = RequestMethod.GET)
     public String ticketBuying(@ModelAttribute("flight") Flight flight) {
-        FlightData flightData = new FlightData();
-        System.out.println(flightData);
         return "ticket_buying";
     }
 
+    @RequestMapping(value = "/ticket_buying/{flightId}", method = RequestMethod.GET)
+    public ModelAndView ticketBuying(@PathVariable int flightId) {
+        Flight flight = flightDao.getById(flightId);
+        ModelAndView map = new ModelAndView("ticket_buying");
+        map.addObject("flight", flight);
+        return map;
+    }
 
     @RequestMapping(value = "/tickets", method = RequestMethod.GET)
-    public String tickets() {
-        return "tickets";
+    public ModelAndView tickets(@ModelAttribute("flight_id") int flight_id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User u = (User) authentication.getPrincipal();
+        Flight flight = flightDao.getById(flight_id);
+        Ticket ticket = new Ticket(flight.getFlight_price(),u.getId(),flight.getFlight_number(), flight.getDeparture_city(), flight.getArrival_city(), flight.getDeparture_airport(), flight.getArrival_airport(), flight.getDeparture_date(), flight.getArrival_date(), flight.getDeparture_time(), flight.getArrival_time());
+        User user = userDaoImpl.getUserById(ticket.getUser_id());
+        int newUserCash = u.getMoney()-ticket.getTicket_price();
+        user.setMoney(newUserCash);
+        boolean isEnoughMoney = userDaoImpl.updateUsersCash(user);
+        String message = "";
+        if(isEnoughMoney) {
+            ticketDao.add(ticket);
+            message = "Билет был успешно куплен";
+        } else{
+            message = "Недостаточно денег для покупки билета";
+        }
+        ModelMap modelMap = new ModelMap();
+        modelMap.addAttribute("message", message);
+        ModelAndView map = new ModelAndView("tickets",modelMap);
+        List<Ticket> ticketsOfUser = ticketDao.getTicketsByUser(user.getId());
+        for(Ticket t : ticketsOfUser){
+            System.out.println("В цикле");
+            System.out.println(t);
+        }
+        map.addObject("tickets", ticketsOfUser);
+        return map;
     }
 
 
     @RequestMapping(value = "/lk", method = RequestMethod.GET)
     public String lk(ModelMap model) {
-        System.out.println(model.getAttribute("password"));
-        System.out.println(model.getAttribute("login"));
-        System.out.println(model.getAttribute("email"));
-        System.out.println("lalala");
+
         return "lk";
+    }
+
+//    @RequestMapping(value = "/testMessage", method = RequestMethod.GET)
+//    public ModelAndView test(ModelMap map) {
+//        map.addAttribute("message", "Password changed successfully");
+//       return new ModelAndView("testMessage", map);
+//    }
+
+    @RequestMapping(value = "/test2", method = RequestMethod.GET)
+    public ModelAndView test2(ModelMap map) {
+        return new ModelAndView("test2", map);
     }
 }

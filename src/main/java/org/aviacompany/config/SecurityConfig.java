@@ -1,6 +1,5 @@
 package org.aviacompany.config;
 
-import com.sun.javafx.scene.layout.region.BackgroundPositionConverter;
 import org.aviacompany.auth.AuthProviderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/login", "/reg", "/addUser").anonymous() //URL, которые доступны только неавтризованным пользователям
+                .antMatchers("/login", "/reg", "/addUser","/resources/**").anonymous() //URL, которые доступны только неавтризованным пользователям
+//        "/resources/**"
                 .antMatchers("/main", "/currentUser").hasAuthority("ROLE_USER")
                 .antMatchers("/admin", "/list", "/currentUser").hasAuthority("ROLE_ADMIN").anyRequest().authenticated()
                 .and().csrf().disable()
@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("email") // по дефолту username в спринге - username, поэтому мы указываем, что у нас email
                 .failureUrl("/login")
                .defaultSuccessUrl("/default", true)
-                .and().logout().permitAll(); //
+                .and().logout().permitAll();
     }
 
     @Override
